@@ -46,13 +46,35 @@ Success in ECHO!
 ```
 
 ```
-youhuangla@DESKTOP-0O633M1:~$ telnet 39.96.76.106 8888
+youhuangla@DESKTOP-0O633M1:~$ telnet 39.96.76.xxx 8888
 Trying 39.96.76.106...
 Connected to 39.96.76.106.
 Escape character is '^]'.
 You are Here
 abc
 ABC
+Connection closed by foreign host.
+```
+
+地址重用与延迟关闭的实现
+
+```bash
+youhuangla@Ubuntu server % ./a.out 8888                                                                   [0]
+New Client Login
+recv: 1abc
+
+Success in ECHO!
+^C
+```
+
+```
+youhuangla@DESKTOP-0O633M1:~$ telnet 39.96.76.xxx 8888
+Trying 39.96.76.106...
+Connected to 39.96.76.106.
+Escape character is '^]'.
+You are Here
+1abc
+1ABC
 Connection closed by foreign host.
 ```
 
