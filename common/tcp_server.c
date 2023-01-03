@@ -6,10 +6,9 @@
  ************************************************************************/
 
 #include "head.h"
-#include <asm-generic/socket.h>
-
 
 int socket_create(int port) {
+	//printf("port: %d\n", port);
 	int server_listen;
 	if ((server_listen = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
 		return -1;

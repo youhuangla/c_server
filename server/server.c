@@ -9,7 +9,6 @@
 #include "../common/common.h"
 #include "../common/tcp_server.h"
 #include "../common/chatroom.h"
-#include <pthread.h>
 
 struct User{
 	char name[20];
@@ -39,6 +38,7 @@ int find_sub() {
 bool check_online(char *name) {
 	for (int i = 0; i < MAX_CLIENT; i++) {
 		if (client[i].online && !strcmp(name, client[i].name)) {// struct User initialised by calloc, so the origin is 0
+			printf("D: %s is online\n", name);	
 			return true;
 		}
 	}
@@ -55,11 +55,14 @@ int main(int argc, char **argv) {
 		perror("socket_create");
 		return 1;
 	}
+	//printf("Socket create.server_listen is %d\n", server_listen);
 	while (1) {
+		//printf("line 60\n");
 		if ((fd = accept(server_listen, NULL, NULL)) < 0) {
 			perror("accept");
-			continue;	
+			continue;
 		}
+		//printf("Accept\n");
 		recvmsg = chat_recv(fd);
 		if (recvmsg.retval < 0) {
 			close(fd);

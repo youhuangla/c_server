@@ -123,3 +123,34 @@ client打印ip和port
 youhuangla@Ubuntu client % ./client                                                                           [0]
 ip = 39.96.76.106, port = 8888
 ```
+
+一个史诗级bug：
+
+```server.conf
+SERVER_PORT=8888
+
+```
+
+```server.conf
+SERVER_PORT=8888
+```
+
+区别：没有一个换行，会造成缺少一个字符，port会显示为888。。而888在1024以下，需要root，建议多用printf调试。
+
+```bash
+youhuangla@Ubuntu server % ./server                   [0]
+socket_create: Permission denied
+```
+
+修改好后：
+
+```bash
+youhuangla@Ubuntu client % ./client                                                                           [0]
+ip = 39.96.76.xxx, port = 8888
+Socket create.
+```
+
+```bash
+youhuangla@Ubuntu server % ./server                                                                           [0]
+Client login!
+```
