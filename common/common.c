@@ -15,8 +15,8 @@ char *get_value(char *path, char *key) {
 	size_t linecap;
 
 	char *sub = NULL;// where the '=' in 
-	//char *ans = NULL;// ip address
-	extern char ans[50];
+	//char *conf_ans = NULL;// ip address
+	extern char conf_ans[50];
 	if (path == NULL || key == NULL) {
 		fprintf(stderr, "Error in argument!\n");
 		return NULL;
@@ -30,8 +30,8 @@ char *get_value(char *path, char *key) {
 			continue;
 		} else {
 			if (line[strlen(key)] == '=') { // find "server = 39.96.xxx.xxx"
-				strncpy(ans, sub + strlen(key) + 1, nrd - strlen(key) - 1);// put 39.96.xxxxxx into a string 
-				*(ans + nrd - strlen(key) - 1) = '\0'; //set the last char to '\0'	: strcat?
+				strncpy(conf_ans, sub + strlen(key) + 1, nrd - strlen(key) - 1);// put 39.96.xxxxxx into a string 
+				*(conf_ans + nrd - strlen(key) - 1) = '\0'; //set the last char to '\0'	: strcat?
 			}
 		}
 	}
@@ -40,7 +40,7 @@ char *get_value(char *path, char *key) {
 	if (sub == NULL) {
 		return NULL;
 	}
-	return ans;
+	return conf_ans;
 }
 
 void make_nonblock_ioctl(int fd) {
