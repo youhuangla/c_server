@@ -6,7 +6,42 @@
  ************************************************************************/
 
 #include "head.h"
-#include <fcntl.h>
+
+char *get_value(char *path, char *key) {
+	FILE *fp = NULL;
+	// man getline
+	ssize_t nrd;
+	char *line = NULL;
+	size_t linecap;
+
+	char *sub = NULL;// where the '=' in 
+	//char *ans = NULL;// ip address
+	extern char ans[50];
+	if (path == NULL || key == NULL) {
+		fprintf(stderr, "Error in argument!\n");
+		return NULL;
+	}
+	if ((fp = fopen(path, "r")) == NULL) {// open file
+		perror("fopen");
+		return NULL;
+	}
+	while ((nrd = getline(&line, &linecap, fp)) != -1) {
+		if ((sub = strstr(line, key)) == NULL) {// strstr :find a string in a line
+			continue;
+		} else {
+			if (line[strlen(key)] == '=') { // find "server = 39.96.xxx.xxx"
+				strncpy(ans, sub + strlen(key) + 1, nrd - strlen(key) - 1);// put 39.96.xxxxxx into a string 
+				*(ans + nrd - strlen(key) - 1) = '\0'; //set the last char to '\0'	: strcat?
+			}
+		}
+	}
+	free(line);
+	fclose(fp);
+	if (sub == NULL) {
+		return NULL;
+	}
+	return ans;
+}
 
 void make_nonblock_ioctl(int fd) {
 	unsigned long ul = 1;
