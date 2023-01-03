@@ -78,3 +78,41 @@ You are Here
 Connection closed by foreign host.
 ```
 
+非阻塞IO
+
+```c
+	sleep(1);// attention: if this line not added
+```
+
+```bash
+youhuangla@Ubuntu client % ./a.out 39.96.76.106 8888                                                          [0]
+Socket create.
+recv: You are Here
+
+```
+
+```bash
+youhuangla@Ubuntu server % ./a.out  8888                                                                    [130]
+New Client Login
+error in recv!
+: Success
+
+```
+
+```c
+	//sleep(1);// attention: if this line not added
+```
+
+```bash
+youhuangla@Ubuntu client % ./a.out 39.96.76.106 8888                                                          [0]
+Socket create.
+recv: 
+```
+
+```bash
+youhuangla@Ubuntu server % ./a.out  8888                                                                    [130]
+New Client Login
+error in recv!
+: Success
+
+```
