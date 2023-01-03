@@ -116,3 +116,10 @@ error in recv!
 : Success
 
 ```
+
+client打印ip和port
+
+```bash
+youhuangla@Ubuntu client % ./client                                                                           [0]
+ip = 39.96.76.106, port = 8888
+```

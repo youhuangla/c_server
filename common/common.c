@@ -8,6 +8,7 @@
 #include "head.h"
 
 char *get_value(char *path, char *key) {
+	
 	FILE *fp = NULL;
 	// man getline
 	ssize_t nrd;
@@ -30,16 +31,21 @@ char *get_value(char *path, char *key) {
 			continue;
 		} else {
 			if (line[strlen(key)] == '=') { // find "server = 39.96.xxx.xxx"
-				strncpy(conf_ans, sub + strlen(key) + 1, nrd - strlen(key) - 1);// put 39.96.xxxxxx into a string 
-				*(conf_ans + nrd - strlen(key) - 1) = '\0'; //set the last char to '\0'	: strcat?
+				strncpy(conf_ans, sub + strlen(key) + 1, nrd - strlen(key) - 2);// put 39.96.xxxxxx into a string 
+				*(conf_ans + nrd - strlen(key) - 2) = '\0'; //set the last char to '\0'	: strcat?
+				break;
 			}
 		}
 	}
+
 	free(line);
 	fclose(fp);
+
 	if (sub == NULL) {
 		return NULL;
 	}
+
+	
 	return conf_ans;
 }
 

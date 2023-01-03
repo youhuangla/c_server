@@ -1,2 +1,2 @@
-gcc -I ../common server.c ../common/tcp_server.c ../common/common.c -lpthread
+gcc server.c ../common/common.c ../common/tcp_server.c -o server -lpthread
 #chmod +x G

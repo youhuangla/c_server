@@ -22,6 +22,20 @@ char *conf = "./server.conf";
 
 struct User *client;
 
+void *work(void *arg) {
+	printf("Client login!\n");
+	return NULL;
+}
+
+int find_sub() {
+	for (int i = 0; i < MAX_CLIENT; i++) {
+		if (!client[i].online) {
+			return i;
+		}
+	}
+	return -1;
+}
+
 bool check_online(char *name) {
 	for (int i = 0; i < MAX_CLIENT; i++) {
 		if (client[i].online && !strcmp(name, client[i].name)) {// struct User initialised by calloc, so the origin is 0
@@ -56,7 +70,7 @@ int main(int argc, char **argv) {
 			//refuse connection:
 		} else {
 			int sub;
-			sub = find_sub();//todo
+			sub = find_sub();
 			client[sub].online = 1;
 			client[sub].fd = fd;
 			strcpy(client[sub].name, recvmsg.msg.from);
