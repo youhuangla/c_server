@@ -168,3 +168,17 @@ youhuangla@Ubuntu server % ./server                                             
 Login: yhl 
 
 ```
+
+chatroomv2
+
+```bash
+youhuangla@Ubuntu client % ./client                                                                           [0]
+ip = 39.96.76.xxx, port = 8888
+Socket create.
+Server : Welcome to this chatroom!%    
+```
+
+```bash
+youhuangla@Ubuntu server % ./server                                                                           [0]
+Login: yhl 
+```

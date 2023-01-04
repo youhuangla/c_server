@@ -18,4 +18,6 @@
 #define L_BLUE "\033[1;34m"
 #define PINK "\033[0;35m"
 #define L_PINK "\033[1;35m"
+#define GREEN "\033[0;32m"
+#define L_GREEN "\033[1;32m"
 #endif
