@@ -29,10 +29,14 @@ void *work(void *arg) {
 	while (1) {
 		rmsg = chat_recv(client_fd);
 		if (rmsg.retval < 0) {
-			printf("Logout: ");
+			printf(PINK"Login:"NONE" %s \n", client[*sub].name);
+			close(client_fd);
+			client[*sub].online = 0;
+			return NULL;
 		}
+		printf(BLUE"%s"NONE" : %s\n", rmsg.msg.from, rmsg.msg.message);
 	}
-	printf("A client login!\n");
+	//printf("A client login!\n");
 	return NULL;
 }
 
@@ -54,7 +58,7 @@ bool check_online(char *name) {
 		}
 		*/
 		if (client[i].online && !strcmp(name, client[i].name)) {// struct User initialised by calloc, so the origin is 0
-			printf(YELLOW"D: %s is online\n"NONE, name);//Only when login again
+			printf(YELLOW"Warning:"NONE": %s is online\n", name);//Only when login again
 			return true;
 		}
 	}

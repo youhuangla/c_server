@@ -154,3 +154,17 @@ Socket create.
 youhuangla@Ubuntu server % ./server                                                                           [0]
 Client login!
 ```
+
+server.c中work函数实现
+
+```bash
+youhuangla@Ubuntu client % ./client                                                                           [0]
+ip = 39.96.76.xxx, port = 8888
+Socket create.
+```
+
+```bash
+youhuangla@Ubuntu server % ./server                                                                           [0]
+Login: yhl 
+
+```
