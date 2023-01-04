@@ -192,3 +192,9 @@ Login : yhl
 yhl : Hello world!
 
 ```
+
+找未退出的客户端
+
+```bash
+youhuangla@Ubuntu thread-server % ps -ef | grep client  
+```

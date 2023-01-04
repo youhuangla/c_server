@@ -11,11 +11,20 @@
 #include "../common/color.h"
 #include "../common/head.h"
 #include <stdio.h>
+#include <unistd.h>
 
 char *conf = "./client.conf";
+int sockfd;
+void logout(int signalnum) {
+	// close the connection after receive ctrl+c(sigint)
+	close(sockfd);
+	exit(1);
+	//printf("recv a signal\n");
+	//return NULL;
+}
 
 int main() {
-	int port, sockfd;
+	int port;
 	struct Msg msg;
 	char ip[20] = {0};
 	port = atoi(get_value(conf, "SERVER_PORT"));
@@ -50,6 +59,7 @@ int main() {
 		perror("fork");
 	}
 	if (pid == 0) {
+		signal(SIGINT, logout);
 		system("clear");
 		while (1) {
 			printf(L_PINK"Please Input Message:"NONE"\n");
@@ -61,6 +71,7 @@ int main() {
 		}
 	} else {// parent pid
 		wait(NULL);
+		close(sockfd);
 	}
 	return 0;
 }
