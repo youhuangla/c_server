@@ -66,7 +66,8 @@ int main() {
 	if (pid == 0) {
 		signal(SIGINT, logout);
 		//system("clear");
-		while (1) {
+		char c = 'a';
+		while (c != EOF) {
 			printf(L_PINK"Please Input Message:"NONE"\n");
 			scanf("%[^\n]s", msg.message);
 			getchar();
@@ -82,6 +83,7 @@ int main() {
 			//receive message
 			rmsg = chat_recv(sockfd);
 			fprintf(log_fp, "%s : %s\n", rmsg.msg.from, rmsg.msg.message);
+			printf("%s : %s\n", rmsg.msg.from, rmsg.msg.message);
 			fflush(log_fp);
 		}
 		wait(NULL);
