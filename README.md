@@ -272,4 +272,63 @@ Please Input Message:
 
 ```
 
-Private
+## 完成私聊
+
+删除 chat.log 内容，并用 ./G 重新编译
+
+### 登录
+
+yhl
+
+![image-20230105010107517](img/image-20230105010107517.png)
+
+yhl2
+
+记得在 client.conf 中改名，并用 ./G 重新编译
+
+![image-20230105010242468](img/image-20230105010242468.png)
+
+server
+
+![image-20230105010315605](img/image-20230105010315605.png)
+
+### 私聊不存在用户
+
+```bash
+Please Input Message:
+@123 123
+```
+
+```bash
+youhuangla@Ubuntu client % tail -f chat.log
+Notification:  123 is not online.
+```
+
+### 私聊自己
+
+yhl
+
+```bash
+Please Input Message:
+@yhl Hello,me!                    
+
+```
+
+```bash
+youhuangla@Ubuntu client % tail -f chat.log
+Notification:  123 is not online.
+yhl* : @yhl Hello,me!
+```
+
+而 yhl2 中无变化
+
+### 私聊其他用户
+
+```bash
+Please Input Message:
+@yhl2 hallo
+```
+
+![image-20230105012643006](img/image-20230105012643006.png)
+
+TODO: 自己私聊其他用户的信息，自己却看不到。另外登录登出的延时很高，是否为粘包问题？
