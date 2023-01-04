@@ -46,10 +46,11 @@ void *work(void *arg) {
 			return NULL;
 		}
 		printf(BLUE"%s"NONE" : %s\n", rmsg.msg.from, rmsg.msg.message);
+		//printf("rmsg.msg.flag = %d\n", rmsg.msg.flag);
 		if (rmsg.msg.flag == 0) { // public chat
 			send_all(rmsg.msg);
 		} else {
-			printf("This is a private chat\n");
+			printf("This is a private chat!\n");
 		}
 	}
 	//printf("A client login!\n");

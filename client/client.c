@@ -14,7 +14,11 @@
 #include <unistd.h>
 
 char *conf = "./client.conf";
+
 int sockfd;
+
+char logfile[50] = {0};
+
 void logout(int signalnum) {
 	// close the connection after receive ctrl+c(sigint)
 	close(sockfd);
@@ -30,6 +34,7 @@ int main() {
 	port = atoi(get_value(conf, "SERVER_PORT"));
 
 	strcpy(ip, get_value(conf, "SERVER_IP"));
+	strcpy(logfile, get_value(conf, "LOG_FILE"));
 	printf("ip = %s, port = %d\n", ip, port);
 	printf("Press Enter to continue\n");
 	getchar();
@@ -60,16 +65,25 @@ int main() {
 	}
 	if (pid == 0) {
 		signal(SIGINT, logout);
-		system("clear");
+		//system("clear");
 		while (1) {
 			printf(L_PINK"Please Input Message:"NONE"\n");
 			scanf("%[^\n]s", msg.message);
 			getchar();
+			msg.flag = 0;
 			chat_send(msg, sockfd);
 			memset(msg.message, 0, sizeof(msg.message));
-			system("clear");
+			//system("clear");
 		}
 	} else {// parent pid
+		FILE *log_fp = fopen(logfile, "w");
+		struct RecvMsg rmsg;
+		while (1) {
+			//receive message
+			rmsg = chat_recv(sockfd);
+			fprintf(log_fp, "%s : %s\n", rmsg.msg.from, rmsg.msg.message);
+			fflush(log_fp);
+		}
 		wait(NULL);
 		close(sockfd);
 	}
