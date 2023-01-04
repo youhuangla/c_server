@@ -1,2 +1,3 @@
-yhl2 : hi
-yhl : hallo
+[1;34myhl[0m : whoooo
+[1;34myhl2[0m : hallo
+[1;34myhl[0m : hi

@@ -1,6 +1,6 @@
 # c_server
 
-
+## 开放端口
 
 ```bash
 sudo ufw allow 8888
@@ -30,6 +30,8 @@ Socket before accept.
 
 用 sleep-client (连接上socket后不发信息)连上server端后，其他客户端程序也无法连接，所以要使用多线程、多进程。
 
+## 多进程
+
 多进程见 fork-server. 但是多进程会产生僵尸进程。
 
 多线程封装成echo服务器：
@@ -56,7 +58,7 @@ ABC
 Connection closed by foreign host.
 ```
 
-地址重用与延迟关闭的实现
+## 地址重用与延迟关闭的实现
 
 ```bash
 youhuangla@Ubuntu server % ./a.out 8888                                                                   [0]
@@ -78,7 +80,7 @@ You are Here
 Connection closed by foreign host.
 ```
 
-非阻塞IO
+## 非阻塞IO
 
 ```c
 	sleep(1);// attention: if this line not added
@@ -117,7 +119,7 @@ error in recv!
 
 ```
 
-client打印ip和port
+## client打印ip和port
 
 ```bash
 youhuangla@Ubuntu client % ./client                                                                           [0]
@@ -155,7 +157,7 @@ youhuangla@Ubuntu server % ./server                                             
 Client login!
 ```
 
-server.c中work函数实现
+## server.c中work函数实现
 
 ```bash
 youhuangla@Ubuntu client % ./client                                                                           [0]
@@ -169,7 +171,7 @@ Login: yhl
 
 ```
 
-chatroomv2
+## chatroomv2
 
 ```bash
 youhuangla@Ubuntu client % ./client                                                                           [0]
@@ -184,7 +186,7 @@ Login : yhl
 Logout: yhl 
 ```
 
-Chatroom talk
+## Chatroom talk
 
 ```bash
 youhuangla@Ubuntu server % ./server                                                                         [130]
@@ -193,13 +195,13 @@ yhl : Hello world!
 
 ```
 
-找未退出的客户端
+## 找未退出的客户端
 
 ```bash
 youhuangla@Ubuntu thread-server % ps -ef | grep client  
 ```
 
-让客户端显示公聊信息，并录入 chat.log 。
+## 让客户端显示公聊信息，并录入 chat.log 。
 
 客户端1
 
@@ -241,4 +243,31 @@ Login : yhl
 Login : yhl2
 yhl2 : hi
 yhl : hallo
+```
+
+## 隐藏client端信息，使用tail命令查看公聊
+
+```bash
+youhuangla@Ubuntu server % ./server                                                                           [0]
+Login : yhl
+yhl : whoooo
+Login : yhl2
+yhl2 : hallo
+yhl : hi
+
+```
+
+```bash
+youhuangla@Ubuntu client % tail -f chat.log                                                                   [0]
+yhl : whoooo
+yhl2 : hallo
+yhl : hi
+
+```
+
+client
+
+```bash
+Please Input Message:
+
 ```
