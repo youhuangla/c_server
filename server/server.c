@@ -9,6 +9,7 @@
 #include "../common/common.h"
 #include "../common/tcp_server.h"
 #include "../common/chatroom.h"
+#include "../common/color.h"
 
 struct User{
 	char name[20];
@@ -28,7 +29,7 @@ void *work(void *arg) {
 	while (1) {
 		rmsg = chat_recv(client_fd);
 		if (rmsg.retval < 0) {
-			printf(PINK"Logout: "")
+			printf("Logout: ");
 		}
 	}
 	printf("A client login!\n");
@@ -53,7 +54,7 @@ bool check_online(char *name) {
 		}
 		*/
 		if (client[i].online && !strcmp(name, client[i].name)) {// struct User initialised by calloc, so the origin is 0
-			printf("D: %s is online\n", name);//Only when login again
+			printf(YELLOW"D: %s is online\n"NONE, name);//Only when login again
 			return true;
 		}
 	}
