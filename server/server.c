@@ -22,7 +22,16 @@ char *conf = "./server.conf";
 struct User *client;
 
 void *work(void *arg) {
-	printf("Client login!\n");
+	int *sub = (int *)arg;
+	int client_fd = client[*sub].fd;
+	struct RecvMsg rmsg;
+	while (1) {
+		rmsg = chat_recv(client_fd);
+		if (rmsg.retval < 0) {
+			printf(PINK"Logout: "")
+		}
+	}
+	printf("A client login!\n");
 	return NULL;
 }
 
@@ -83,7 +92,7 @@ int main(int argc, char **argv) {
 			client[sub].online = 1;
 			client[sub].fd = fd;
 			strcpy(client[sub].name, recvmsg.msg.from);
-			pthread_create(&client[sub].tid, NULL, work, NULL);// todo
+			pthread_create(&client[sub].tid, NULL, work, (void *)&sub);// todo
 		}
 	}
 	
