@@ -37,8 +37,14 @@ int find_sub() {
 
 bool check_online(char *name) {
 	for (int i = 0; i < MAX_CLIENT; i++) {
+		/*
+		printf("check_online %d\n", i);
+		if (strlen(client[i].name) != 0) {
+			printf("client[%d].name: %s ", i, client[i].name);
+		}
+		*/
 		if (client[i].online && !strcmp(name, client[i].name)) {// struct User initialised by calloc, so the origin is 0
-			printf("D: %s is online\n", name);	
+			printf("D: %s is online\n", name);//Only when login again
 			return true;
 		}
 	}
