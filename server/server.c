@@ -26,10 +26,11 @@ void *work(void *arg) {
 	int *sub = (int *)arg;
 	int client_fd = client[*sub].fd;
 	struct RecvMsg rmsg;
+	printf(GREEN"Login "NONE": %s\n", client[*sub].name);
 	while (1) {
 		rmsg = chat_recv(client_fd);
 		if (rmsg.retval < 0) {
-			printf(PINK"Login:"NONE" %s \n", client[*sub].name);
+			printf(PINK"Logout:"NONE" %s \n", client[*sub].name);
 			close(client_fd);
 			client[*sub].online = 0;
 			return NULL;

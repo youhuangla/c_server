@@ -180,5 +180,6 @@ Server : Welcome to this chatroom!%
 
 ```bash
 youhuangla@Ubuntu server % ./server                                                                           [0]
-Login: yhl 
+Login : yhl
+Logout: yhl 
 ```
