@@ -198,3 +198,47 @@ yhl : Hello world!
 ```bash
 youhuangla@Ubuntu thread-server % ps -ef | grep client  
 ```
+
+让客户端显示公聊信息，并录入 chat.log 。
+
+客户端1
+
+```bash
+youhuangla@Ubuntu client % ./client                                                                           [0]
+ip = 39.96.76.106, port = 8888
+Press Enter to continue
+
+Socket create.
+Server : Welcome to this chatroom!
+Please Input Message:
+yhl2 : hi
+hallo
+Please Input Message:
+yhl : hallo
+```
+
+客户端2
+
+```bash
+youhuangla@DESKTOP-0O633M1:~/c_server/client$ ./client
+ip = 39.96.76.106, port = 8888
+Press Enter to continue
+
+Socket create.
+Server : Welcome to this chatroom!
+Please Input Message:
+hi
+Please Input Message:
+yhl2 : hi
+yhl : hallo
+```
+
+服务器
+
+```bash
+youhuangla@Ubuntu server % ./server                                                                           [0]
+Login : yhl
+Login : yhl2
+yhl2 : hi
+yhl : hallo
+```

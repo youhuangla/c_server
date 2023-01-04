@@ -117,7 +117,7 @@ int main(int argc, char **argv) {
 			//refuse connection:
 		}
 		msg.flag = 2;
-		strcpy(msg.message, "Welcome to this chatroom!");
+		strcpy(msg.message, "Welcome to this chatroom!\n");
 		chat_send(msg, fd);
 		int sub;
 		sum++;
