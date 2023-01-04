@@ -10,6 +10,7 @@
 #include "../common/tcp_server.h"
 #include "../common/chatroom.h"
 #include "../common/color.h"
+#include <string.h>
 
 struct User{
 	char name[20];
@@ -31,6 +32,15 @@ void send_all(struct Msg msg) {
 	}
 }
 
+int check_name(char *name) {
+	for (int i = 0; i < MAX_CLIENT; i++) {
+		if (client[i].online && !strcmp(client[i].name, name)) {
+			return i;
+		}
+	}
+	return -1;
+}
+
 void *work(void *arg) {
 	int sub = *(int *)arg;
 	int client_fd = client[sub].fd;
@@ -49,8 +59,33 @@ void *work(void *arg) {
 		//printf("rmsg.msg.flag = %d\n", rmsg.msg.flag);
 		if (rmsg.msg.flag == 0) { // public chat
 			send_all(rmsg.msg);
-		} else {
-			printf("This is a private chat!\n");
+		} else if (rmsg.msg.flag == 1) {
+			if (rmsg.msg.message[0] == '@') {
+				char to[20] = {0};// username
+				//search for username
+				int i = 1;
+				for (; i <= 20; i++) {
+					if (rmsg.msg.message[i] == ' ') {
+						break;
+					}
+				}
+				strncpy(to, rmsg.msg.message + 1, i - 1); // @yhl_
+				int ind;
+				if ((ind = check_name(to)) < 0) {
+					//printf("ind = %d\n", ind);
+					//sleep(4);
+					//tell the one begin private chat that another is off line
+					sprintf(rmsg.msg.message, "%s is not online.", to);
+					rmsg.msg.flag = 2;// used to be a BUG
+					//printf("%s\n", rmsg.msg.message);
+					chat_send(rmsg.msg, client_fd);
+					continue;
+				}
+				//rmsg.msg.flag = 1;
+				//printf("rmsg.msg = %s\n", rmsg.msg.message);
+				//printf("client[ind].fd = %d\n", client[ind].fd);
+				chat_send(rmsg.msg, client[ind].fd);
+			}
 		}
 	}
 	//printf("A client login!\n");

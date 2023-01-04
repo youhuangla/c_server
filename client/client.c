@@ -22,6 +22,7 @@ char logfile[50] = {0};
 void logout(int signalnum) {
 	// close the connection after receive ctrl+c(sigint)
 	close(sockfd);
+	printf("You have logout!\n");
 	exit(1);
 	//printf("recv a signal\n");
 	//return NULL;
@@ -35,6 +36,8 @@ int main() {
 
 	strcpy(ip, get_value(conf, "SERVER_IP"));
 	strcpy(logfile, get_value(conf, "LOG_FILE"));
+
+
 	printf("ip = %s, port = %d\n", ip, port);
 	printf("Press Enter to continue\n");
 	getchar();
@@ -71,23 +74,45 @@ int main() {
 		while (c != EOF) {
 			printf(L_PINK"Please Input Message:"NONE"\n");
 			scanf("%[^\n]s", msg.message);
-			getchar();
+			c = getchar();
 			msg.flag = 0;
+			//printf("msg.flag = %d\n", msg.flag);
+			//sleep(4);
+			if (msg.message[0] == '@') {
+				//printf("private chat mark\n");
+				//sleep(4);
+				msg.flag = 1; //private chat
+			}
 			chat_send(msg, sockfd);
 			memset(msg.message, 0, sizeof(msg.message));
 			system("clear");
 		}
+		close(sockfd);
 	} else {// parent pid
-		FILE *log_fp = fopen(logfile, "w");
-		struct RecvMsg rmsg;
+		//FILE *log_fp = fopen(logfile, "w");
+		//struct RecvMsg rmsg;
+		freopen(logfile, "a+", stdout);
 		while (1) {
 			//receive message
 			rmsg = chat_recv(sockfd);
-			if (rmsg.msg.flag == 0) {
-				fprintf(log_fp, L_BLUE"%s"NONE" : %s\n", rmsg.msg.from, rmsg.msg.message);
+			if (rmsg.retval < 0) {
+				printf("Error in Server!\n");
+				break;
 			}
-			printf("%s : %s\n", rmsg.msg.from, rmsg.msg.message);
-			fflush(log_fp);
+			//printf("client.c 102\n");//print in chat.log?
+			//sleep(5);
+			if (rmsg.msg.flag == 0) {
+				printf(L_BLUE"%s"NONE" : %s\n", rmsg.msg.from, rmsg.msg.message);
+			} else if (rmsg.msg.flag == 2) {
+				//printf("client.c 107\n");
+				printf(YELLOW"Notification: "NONE" %s\n", rmsg.msg.message);
+			} else if (rmsg.msg.flag == 1) {
+				printf(L_BLUE"%s"L_GREEN"*"NONE" : %s\n", rmsg.msg.from, rmsg.msg.message);//?
+				//printf("Private Chat!\n");
+			} else {
+				printf("Flag Error!\n");
+			}
+			fflush(stdout);
 		}
 		wait(NULL);
 		close(sockfd);
