@@ -69,6 +69,7 @@ int main(int argc, char **argv) {
 	int port, server_listen;
 	int fd;
 	struct RecvMsg recvmsg;
+	struct Msg msg;
 	port = atoi(get_value(conf, "SERVER_PORT"));
 	client = (struct User *)calloc(MAX_CLIENT, sizeof(struct User));// clear with 0
 	if ((server_listen = socket_create(port)) < 0) {
@@ -88,17 +89,25 @@ int main(int argc, char **argv) {
 			close(fd);
 			continue;
 		}
+
 		//Bug: if a people not send his first img, it will block, so we should make a time limit
 		if (check_online(recvmsg.msg.from)) {
+			msg.flag = 3;
+			strcpy(msg.message, "You have already Login!");
+			chat_send(msg, fd);
+			close(fd);
+			continue;
 			//refuse connection:
-		} else {
-			int sub;
-			sub = find_sub();
-			client[sub].online = 1;
-			client[sub].fd = fd;
-			strcpy(client[sub].name, recvmsg.msg.from);
-			pthread_create(&client[sub].tid, NULL, work, (void *)&sub);// todo
 		}
+		msg.flag = 2;
+		strcpy(msg.message, "Welcome to this chatroom!");
+		chat_send(msg, fd);
+		int sub;
+		sub = find_sub();
+		client[sub].online = 1;
+		client[sub].fd = fd;
+		strcpy(client[sub].name, recvmsg.msg.from);
+		pthread_create(&client[sub].tid, NULL, work, (void *)&sub);
 	}
 	
 	return 0;

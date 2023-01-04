@@ -12,7 +12,7 @@
 
 struct Msg {
 	char from[20];
-	int flag;
+	int flag;// flag == 1 private, 0 public, 2 server notification message or server connection message, 3 request to disconnect
 	char message[512];
 };
 
